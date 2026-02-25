@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${post.title}">Post Title</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        async function deletePost(id) {
+            if (!confirm("정말 삭제하시겠습니까?")) return;
+
+            try {
+                const response = await fetch(`/api/v1/posts/${id}`, {
+                    method: 'DELETE',
+                    redirect: 'manual' // 자동 리다이렉트를 막음
+                });
+
+                if (response.type === 'opaqueredirect') {
+                    // 서버가 로그인 페이지로 보내려고 할 때 (리다이렉트 발생 시)
+                    alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+                    window.location.href = "/";
+                    return;
+                }
+
+                if (response.ok) {
+                    alert("삭제되었습니다.");
+                    window.location.href = "/";
+                } else {
+                    alert("본인이 작성한 글만 삭제할 수 있습니다.");
+                }
+            } catch (error) {
+                // CORS 정책으로 차단된 경우 보통 이리로 옵니다.
+                console.error(error);
+                alert("인증 오류가 발생했습니다. 로그인을 다시 시도해주세요.");
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5 mb-3" th:text="${post.title}">Post Title</h1>
+    <div class="card mb-3">
+        <div class="card-body">
+            <p class="card-text" th:text="${post.content}">Post Content</p>
+            <footer class="blockquote-footer">
+                Author: <cite title="Author" th:text="${post.author.nickName}">Post Author</cite>
+            </footer>
+        </div>
+    </div>
+    <a href="/" class="btn btn-secondary">Back to list</a>
+    <span th:if="${userNickName != null and userNickName == post.author.nickName}">
+        <a th:href="@{/posts/edit/{id}(id=${post.id})}" class="btn btn-primary">수정</a>
+        <button type="button" class="btn btn-danger" th:onclick="'deletePost(' + ${post.id} + ')'">삭제</button>
+    </span>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Posts List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div th:if="${userName == null}">
+        <a href="/oauth2/authorization/google" class="btn btn-success">Google Login</a>
+    </div>
+
+    <div th:if="${userName != null}">
+        Logged in as: <span th:text="${userName}">유저명</span>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <h1 class="mt-5 mb-3">Posts</h1>
+    <a href="/new" class="btn btn-primary mb-3">Create New Post</a>
+    <div class="list-group">
+        <a th:each="post : ${posts}" th:href="@{/posts/{id}(id=${post.id})}" class="list-group-item list-group-item-action">
+            <h5 class="mb-1" th:text="${post.title}">Post Title</h5>
+            <p class="mb-1 text-truncate" th:text="${post.content}">Post Content</p>
+            <small th:text="${post.author}">Post Author</small>
+        </a>
+    </div>
+</div>
+</body>
+</html>

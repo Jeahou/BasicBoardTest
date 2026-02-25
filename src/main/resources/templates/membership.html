@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f8f9fa; margin: 0; font-family: 'Pretendard', sans-serif;">
+
+    <div style="width: 100%; max-width: 400px; padding: 40px; background-color: #ffffff; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); text-align: center;">
+
+        <h2 style="margin-bottom: 8px; color: #1a1a1a; font-size: 24px;">계정 만들기</h2>
+        <p style="font-size: 14px; color: #666; margin-bottom: 32px;">간편하게 시작하고 게시판을 이용해 보세요.</p>
+
+        <button type="button" onclick="location.href='구글로그인주소'"
+                style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; background-color: #ffffff; border: 1px solid #dadce0; border-radius: 8px; cursor: pointer; margin-bottom: 20px; transition: background-color 0.2s;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_External_Logo_Symbol.svg" alt="Google" style="width: 18px; margin-right: 10px;">
+            <span style="font-size: 15px; font-weight: 500; color: #3c4043;">Google로 회원가입</span>
+        </button>
+
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <div style="flex: 1; height: 1px; background-color: #eee;"></div>
+            <span style="margin: 0 15px; font-size: 12px; color: #aaa;">또는 이메일로 가입</span>
+            <div style="flex: 1; height: 1px; background-color: #eee;"></div>
+        </div>
+
+        <form>
+            <input type="text" placeholder="이름"
+                   style="width: 100%; padding: 12px 15px; margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; outline: none; font-size: 14px;">
+
+            <input type="email" placeholder="이메일 주소"
+                   style="width: 100%; padding: 12px 15px; margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; outline: none; font-size: 14px;">
+
+            <input type="password" placeholder="비밀번호 (8자 이상)"
+                   style="width: 100%; padding: 12px 15px; margin-bottom: 24px; border: 1px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; outline: none; font-size: 14px;">
+
+            <button type="submit"
+                    style="width: 100%; padding: 14px; background-color: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer;">
+                가입하기
+            </button>
+        </form>
+
+        <p style="margin-top: 25px; font-size: 13px; color: #666;">
+            이미 계정이 있으신가요?
+            <a href="/login" style="color: #1a73e8; text-decoration: none; font-weight: bold;">로그인</a>
+        </p>
+
+    </div>
+</div>
+
+</body>
+</html>
