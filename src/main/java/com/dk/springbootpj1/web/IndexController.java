@@ -2,8 +2,13 @@ package com.dk.springbootpj1.web;
 
 import com.dk.springbootpj1.config.auth.dto.SessionUserDto;
 import com.dk.springbootpj1.service.PostsService;
+import com.dk.springbootpj1.web.dto.PostsListResponseDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +22,10 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model){
-        model.addAttribute("posts", postsService.findAllDesc());
+    public String index(Model model, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+        Page<PostsListResponseDto> posts = postsService.findAllDesc(pageable);
+
+        model.addAttribute("posts", posts);
 
         SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
         // 만약 유저 정보가 있다면 화면에 넘겨줍니다.
@@ -39,6 +46,22 @@ public class IndexController {
         }
 
         return "new";
+    }
+
+    @GetMapping("/posts/search")
+    public String search(String keyword, Model model,
+                         @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return "redirect:/";
+        }
+
+        Page<PostsListResponseDto> searchList = postsService.search(keyword, pageable);
+
+        model.addAttribute("posts", searchList);
+        model.addAttribute("keyword", keyword); // 화면에서 검색어를 계속 보여주기 위해 추가
+
+        return "startListPage";
     }
 
     @GetMapping("/posts/{id}")

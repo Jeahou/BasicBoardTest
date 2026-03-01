@@ -7,6 +7,7 @@ import com.dk.springbootpj1.web.dto.PostsResponseDto;
 import com.dk.springbootpj1.web.dto.PostsSaveRequestDto;
 import com.dk.springbootpj1.web.dto.PostsUpdateRequestDto;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +19,13 @@ public class PostsApiController {
     private final HttpSession httpSession;
 
     @PostMapping("/api/v1/posts")
-    public Long save(@RequestBody PostsSaveRequestDto requestDto){
+    public Long save(@Valid @RequestBody PostsSaveRequestDto requestDto){
         SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
         return postsService.save(requestDto, user);
     }
 
     @PutMapping("/api/v1/posts/{id}")
-    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto){
+    public Long update(@PathVariable Long id,@Valid @RequestBody PostsUpdateRequestDto requestDto){
         SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
         return postsService.update(id, requestDto, user);
     }

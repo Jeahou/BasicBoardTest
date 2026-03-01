@@ -10,6 +10,8 @@ import com.dk.springbootpj1.web.dto.PostsSaveRequestDto;
 import com.dk.springbootpj1.web.dto.PostsListResponseDto;
 import com.dk.springbootpj1.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,11 +64,26 @@ public class PostsService {
         postsRepository.delete(posts);
     }
 
+    /*
     @Transactional(readOnly = true)
     public List<PostsListResponseDto> findAllDesc() {
         return postsRepository.findAllDesc().stream()
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+    */
+    //위에껀 리스트를 그냥 쭉 보여주는거 아래는 페이징화 해서 보여주기 jpa page기술이용
+
+    @Transactional(readOnly = true)
+    public Page<PostsListResponseDto> findAllDesc(Pageable pageable) {
+        return postsRepository.findAll(pageable)
+                .map(PostsListResponseDto::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostsListResponseDto> search(String keyword, Pageable pageable) {
+        return postsRepository.findByTitleContaining(keyword, pageable)
+                .map(PostsListResponseDto::new);
     }
 
     public List<Posts> findAllPosts() {
