@@ -52,6 +52,12 @@ public class IndexController {
     public String search(String keyword, Model model,
                          @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
+        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
+        // 만약 유저 정보가 있다면 화면에 넘겨줍니다.
+        if (user != null) {
+            model.addAttribute("userNickName", user.getNickName());
+        }
+
         if (keyword == null || keyword.trim().isEmpty()) {
             return "redirect:/";
         }
